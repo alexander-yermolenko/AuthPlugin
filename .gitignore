@@ -1,0 +1,33 @@
+# Ignore IntelliJ IDEA files
+.idea/
+
+# Ignore Eclipse project files
+.project
+.classpath
+.settings/
+
+# Ignore NetBeans project files
+/nbproject/
+
+# Ignore build artifacts
+/target/
+/build/
+
+# Ignore dependencies (if you're using Maven or Gradle)
+*.jar
+*.war
+
+# Ignore compiled class files
+*.class
+
+# Ignore logs
+*.log
+
+# Ignore .DS_Store (macOS)
+.DS_Store
+
+# Ignore temporary files
+*.swp
+*.swo
+*.bak
+*.iml

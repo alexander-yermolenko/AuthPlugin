@@ -1,0 +1,16 @@
+name: AuthPlugin
+version: '1.0'
+main: com.yermolenko.authPlugin.AuthPlugin
+api-version: '1.12'
+authors: [ Alexander Yermolenko ]
+description: AuthPlugin - registration and login to the Minecraft server
+website-github: https://github.com/alexander-yermolenko
+website-LinkedIn: https://www.linkedin.com/in/alexander-yermolenko-0416542a3
+website-funpay: https://funpay.com/en/users/8648279/
+commands:
+  reg:
+    description: Register your account
+    usage: /<command> [password]
+  log:
+    description: Login to your account
+    usage: /<command> [password]
