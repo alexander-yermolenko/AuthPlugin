@@ -1,0 +1,5 @@
+# Player data
+players:
+# Example entry (will be populated dynamically)
+# ExamplePlayer:
+#   password: "examplepassword"

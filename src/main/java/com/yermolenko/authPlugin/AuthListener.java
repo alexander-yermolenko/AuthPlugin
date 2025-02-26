@@ -1,11 +1,13 @@
 package com.yermolenko.authPlugin;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class AuthListener implements Listener {
     private final AuthPlugin plugin;
@@ -20,11 +22,15 @@ public class AuthListener implements Listener {
         PlayerDataManager dataManager = plugin.getDataManager();
 
         if (!dataManager.isRegistered(player)) {
-            player.sendMessage(ChatColor.YELLOW + "Welcome! Please register using /reg [password]");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessagesConfig().getString("join-new-player")));
         } else {
-            player.sendMessage(ChatColor.YELLOW + "Welcome back! Please login using /log [password]");
+            Location lastLocation = dataManager.getPlayerLocation(player);
+            if (lastLocation != null) {
+                player.teleport(lastLocation);
+            }
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessagesConfig().getString("join-returning-player")));
         }
-        dataManager.setLoggedIn(player, false); // Ensure player starts as not logged in
+        dataManager.setLoggedIn(player, false);
     }
 
     @EventHandler
@@ -33,12 +39,22 @@ public class AuthListener implements Listener {
         PlayerDataManager dataManager = plugin.getDataManager();
 
         if (!dataManager.isLoggedIn(player)) {
-            event.setCancelled(true); // Disable movement until logged in
+            event.setCancelled(true);
             if (!dataManager.isRegistered(player)) {
-                player.sendMessage(ChatColor.RED + "Please register first using /reg [password]");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessagesConfig().getString("move-not-registered")));
             } else {
-                player.sendMessage(ChatColor.RED + "Please login using /log [password]");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessagesConfig().getString("move-not-logged-in")));
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        PlayerDataManager dataManager = plugin.getDataManager();
+        if (dataManager.isLoggedIn(player)) {
+            dataManager.savePlayerLocation(player);
+            dataManager.setLoggedIn(player, false);
         }
     }
 }

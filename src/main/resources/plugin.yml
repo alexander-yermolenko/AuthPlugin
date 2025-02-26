@@ -1,9 +1,9 @@
 name: AuthPlugin
-version: '1.0'
+version: '1.1'
 main: com.yermolenko.authPlugin.AuthPlugin
 api-version: '1.12'
 authors: [ Alexander Yermolenko ]
-description: AuthPlugin - registration and login to the Minecraft server
+description: AuthPlugin - registration and login to the server
 website-github: https://github.com/alexander-yermolenko
 website-LinkedIn: https://www.linkedin.com/in/alexander-yermolenko-0416542a3
 website-funpay: https://funpay.com/en/users/8648279/
@@ -14,3 +14,14 @@ commands:
   log:
     description: Login to your account
     usage: /<command> [password]
+  changepass:
+    description: Change your password (must be logged in)
+    usage: /<command> [new password] [new password]
+  changeplayerpass:
+    description: Change another player's password (admin only)
+    usage: /<command> [player] [new password]
+    permission: authplugin.admin
+permissions:
+  authplugin.admin:
+    description: Allows changing other players' passwords
+    default: op
